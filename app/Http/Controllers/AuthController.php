@@ -37,5 +37,13 @@ class Controller extends BaseController
                 'error'=> "El correo no existe"
             ], 400);
         }
+        if($this->request->input('password')== $user->password){
+            return response()->json([
+                'token'=>$this -> jwt($user)
+            ],200);        
+        }
+        return response()->json([
+            'error'=> "El correo o el pasword estan incorrectos"
+        ], 400);
     }
 }
