@@ -27,8 +27,23 @@ class JwtMiddleware
         }
 
         $array_token = explode('', $request->header('Authorization'));
+        $token = $array_token[1];
 
-        $response = $next($request);
+        try {
+            $credentials = JWT:: decode($token, new Key('JWT_SECRET'), 'H256');
+        } catch (ExpiredException $e) {
+        return response()-> json([
+            'error'=> 'El token ha expirado'
+        ], 400);
+        }catch(Exception $e){
+            return response()->json([
+                'error'=>'Algo ha ocurrido al decodear el token'
+            ],400);
+        }
+        $user = User::find($credentials->sub);
+
+        $request->auth = $user;
+        return  $next($request);
 
         // Post-Middleware Action
 
