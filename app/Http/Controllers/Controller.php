@@ -3,25 +3,8 @@
 namespace App\Http\Controllers;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
-use Illuminate\Http\Request;
-use App\Models\User;
-use Firebase\JWT\JWT;
 
 class Controller extends BaseController
 {
-    private $request;
-
-    public function _construct(Request $request){
-        $this->request = $request;
-    }
-
-    public function jwt(User $user){
-        $payload =[
-            "iss" => "api-youtube-jwt",
-            "sub"=> $user->id,
-            "iat"=> time(),
-            "exp"=> time() + 60 * 60,
-        ];
-        return JWT::encode($payload, env('JWT_SECRET'),'HS256');
-    }
+    //
 }
