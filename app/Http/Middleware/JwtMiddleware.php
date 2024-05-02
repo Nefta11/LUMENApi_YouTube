@@ -3,6 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Exception;
+use App\Models\User;
+use Firebase\JWT\JWT;
+use Firebase\JWT\ExperideException;
 
 class JwtMiddleware
 {
@@ -15,7 +19,14 @@ class JwtMiddleware
      */
     public function handle($request, Closure $next)
     {
-        // Pre-Middleware Action
+        if(!$request-> header('Authorization')){
+            return response()->json([
+                'error'=> 'Se requiere el token'
+
+            ], 401);
+        }
+
+        $array_token = explode('', $request->header('Authorization'));
 
         $response = $next($request);
 
