@@ -6,44 +6,48 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Firebase\JWT\JWT;
+use Illuminate\Support\Facades\Hash;
 
-class Controller extends BaseController
+class AuthController extends BaseController
 {
     private $request;
 
-    public function _construct(Request $request){
+    public function __construct(Request $request){
         $this->request = $request;
     }
 
     public function jwt(User $user){
-        $payload =[
+        $payload = [
             "iss" => "api-youtube-jwt",
-            "sub"=> $user->id,
-            "iat"=> time(),
-            "exp"=> time() + 60 * 60,
+            "sub" => $user->id,
+            "iat" => time(),
+            "exp" => time() + 60*60,
         ];
-        return JWT::encode($payload, env('JWT_SECRET'),'HS256');
+        return JWT::encode($payload, env('JWT_SECRET'), 'HS256');
     }
 
-    public function authenticate (User $user){
+    public function authenticate(){
         $this->validate($this->request, [
-            'mail'=>'required|email',
-            'password'=>'required'
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
 
-        $user = User:: where('email',$this->request->get->input('email'))->first();
-        if(!$user){
-            return response()-> json([
-                'error'=> "El correo no existe"
-            ], 400);
-        }
-        if($this->request->input('password')== $user->password){
+        $user = User::where('email', $this->request->input('email'))->first();
+
+        if (!$user) {
             return response()->json([
-                'token'=>$this -> jwt($user)
-            ],200);        
+                'error' => "El correo no existe"
+            ], 404);
         }
+
+        if (Hash::check($this->request->input('password'), $user->password)) {
+            return response()->json([
+                'token' => $this->jwt($user)
+            ], 200);
+        }
+
         return response()->json([
-            'error'=> "El correo o el pasword estan incorrectos"
-        ], 400);
+            'error' => "El correo o la contraseña están incorrectos"
+        ], 401);
     }
 }
