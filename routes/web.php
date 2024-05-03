@@ -21,5 +21,7 @@ $router->group(
     ['middleware'=>'jwt.auth'],
     function () use ($router){
         $router->get('/users', 'UserController@index');
+        $router->post('/users', 'UserController@index');
+
     }
 );
