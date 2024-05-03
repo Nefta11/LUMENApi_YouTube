@@ -26,12 +26,15 @@ class AuthController extends BaseController
         return JWT::encode($payload, env('JWT_SECRET'), 'HS256');
     }
 
-    public function authenticate(){
+    public function authenticate(User $user)
+    {
         $this->validate($this->request, [
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
+
+        
         $user = User::where('email', $this->request->input('email'))->first();
 
         if (!$user) {
@@ -40,7 +43,7 @@ class AuthController extends BaseController
             ], 404);
         }
 
-        if (Hash::check($this->request->input('password'), $user->password)) {
+        if ($this->request->input('password')== $user->password){
             return response()->json([
                 'token' => $this->jwt($user)
             ], 200);
