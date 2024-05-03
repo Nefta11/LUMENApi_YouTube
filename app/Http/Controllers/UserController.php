@@ -17,7 +17,6 @@ class UserController extends Controller
         $users = User::all();
         return response()->json(["users"=> $users]);
     }
-
     /**
      * Show the form for creating a new resource.
      *
