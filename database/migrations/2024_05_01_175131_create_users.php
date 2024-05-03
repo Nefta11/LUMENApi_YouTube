@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
+// comando para migrar tu bd a la mysql php artisan migrate
     /**
      * Reverse the migrations.
      */
