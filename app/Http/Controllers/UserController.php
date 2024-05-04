@@ -37,9 +37,9 @@ class UserController extends Controller
     {   
 
         $this->validate($request,[
-        "name"=>"require|string",
-        "email"=>"require|email|unique:users",
-        "phone"=>"require|digits:10"
+        "name"=>"required|string",
+        "email"=>"required|email|unique:users",
+        "phone"=>"required|digits:10"
 
         ]);
 
