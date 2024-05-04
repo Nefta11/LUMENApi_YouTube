@@ -34,7 +34,16 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $user = new User();
+        $user -> $request ->name;
+        $user ->  $request ->email;
+        $user -> $request ->phone;
+        $user -> $request ->password;
+        $user -> $request -> status;
+        $user -> save();
+
+        
         return response()->json($request);
     }
 
