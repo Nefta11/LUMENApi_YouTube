@@ -22,7 +22,6 @@ $router->group(
     function () use ($router){
         $router->get('/users', 'UserController@index');
         $router->post('/users', 'UserController@store');
-
     }
 );
 //Estoy usando choco en windows para la actualizacion y descarga de eklementos via terminal
