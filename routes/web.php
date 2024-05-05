@@ -19,11 +19,12 @@ $router->post('/auth/login',[
 
 $router->post('/users', 'UserController@store');
 
+
 $router->group(
     ['middleware'=>'jwt.auth'],
     function () use ($router){
         $router->get('/users', 'UserController@index');
-        
+        $router->get('/categories', 'CategoryController@index');
     }
 );
 //Siuu
