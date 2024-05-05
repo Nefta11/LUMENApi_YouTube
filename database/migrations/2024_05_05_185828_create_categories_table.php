@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->string('name',50);
+            $table->string('color',6);
+            $table->string('icon',525);
+            $table->boolean('type',2);
             $table->timestamps();
         });
     }
